@@ -8,7 +8,7 @@ if __name__ == '__main__':
     print(f"Found {len(paths)} files.")
 
     total_words = 0
-    with ThreadPoolExecutor(max_workers=64) as executor:
+    with ThreadPoolExecutor(max_workers=32) as executor:
         for words in tqdm(executor.map(parse_file, paths), total=len(paths)):
             total_words += len(words)
 
