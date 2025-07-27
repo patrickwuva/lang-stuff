@@ -10,8 +10,8 @@ if __name__ == '__main__':
 
     total_words = 0
     with ProcessPoolExecutor() as executor:
-        for word_count in executor.map(parse_file, paths):
-            total_words += word_count
+        for words in executor.map(parse_file, paths):
+            total_words += len(words)
 
     print(f"Total words: {total_words}")
 
