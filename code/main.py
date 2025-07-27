@@ -1,8 +1,7 @@
 from glob import glob
-
 from process import parse_file, get_paths
-from concurrent.futures import ProcessPoolExecutor, ThreadPoolExecutor
-
+from concurrent.futures import ThreadPoolExecutor
+from tqdm import tqdm
 
 if __name__ == '__main__':
     paths = get_paths()
@@ -10,7 +9,7 @@ if __name__ == '__main__':
 
     total_words = 0
     with ThreadPoolExecutor(max_workers=64) as executor:
-        for words in executor.map(parse_file, paths):
+        for words in tqdm(executor.map(parse_file, paths), total=len(paths)):
             total_words += len(words)
 
     print(f"Total words: {total_words}")
