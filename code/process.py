@@ -25,7 +25,7 @@ def parse_file(filepath):
 
 def count_letters_in_text(text: str) -> Result:
     result = Result()
-    for raw_word in text.split():
+    for raw_word in text:
         word = Word.from_string(raw_word.lower())  # Normalize to lowercase
         for ch in word.get_chars():
             if ch in string.ascii_lowercase:  # Only count a-z
