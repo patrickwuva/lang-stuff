@@ -1,6 +1,7 @@
 from process import parse_file, get_paths, count_letters_in_text
 from concurrent.futures import ProcessPoolExecutor
 from tqdm import tqdm
+from dataclasses import asdict
 
 if __name__ == '__main__':
     paths = get_paths()
@@ -16,4 +17,4 @@ if __name__ == '__main__':
     text = parse_file(paths[0])
     r = count_letters_in_text(text)
     #print(f"Total words: {total_words}")
-
+    print(asdict(r))
