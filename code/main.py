@@ -22,5 +22,6 @@ if __name__ == '__main__':
     print("Final Letter Frequencies:")
     for ch, count in asdict(master_result).items():
         if count > 0:
-            print(f"{ch}: {count}")
+            print(f"{ch}: {count:,}")
+        
 
