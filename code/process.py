@@ -19,7 +19,7 @@ word_re = re.compile(r"\b\w+\b")
 def parse_file(filepath):
     with open(filepath, "r", encoding="utf-8", errors="ignore") as f:
         text = f.read()
-    return len(word_re.findall(text.lower()))
+    return word_re.findall(text.lower())
 
 
 
