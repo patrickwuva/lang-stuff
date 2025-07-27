@@ -1,14 +1,17 @@
 from glob import glob
 
 from process import parse_file, get_paths
+from concurrent.futures import ProcessPoolExecutor
+
 
 if __name__ == '__main__':
-    total = 0
     paths = get_paths()
-    print(len(paths))
-    for path in paths:
-        words = parse_file(path)
-        total += len(words)
+    print(f"Found {len(paths)} files.")
 
-    print(f'total words: {total}');
-    
+    total_words = 0
+    with ProcessPoolExecutor() as executor:
+        for word_count in executor.map(parse_file, paths):
+            total_words += word_count
+
+    print(f"Total words: {total_words}")
+
