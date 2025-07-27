@@ -7,7 +7,7 @@ if __name__ == '__main__':
     paths = get_paths()
     print(len(paths))
     for path in paths:
-        words = parse_file(paths)
+        words = parse_file(path)
         total += len(words)
 
     print(f'total words: {total}');
