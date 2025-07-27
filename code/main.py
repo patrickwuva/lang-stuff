@@ -19,9 +19,9 @@ if __name__ == '__main__':
         for r in tqdm(partial_results, total=len(paths), desc="Counting Letters", unit="file"):
             master_result = merge_results(master_result, r)
 
-    print("Final Letter Frequencies:")
-    for ch, count in asdict(master_result).items():
-        if count > 0:
-            print(f"{ch}: {count:,}")
-        
+    sorted_counts = sorted(asdict(master_result).items(), key=lambda x: -x[1])
+
+    print("Final Letter Frequencies (sorted):")
+    for ch, count in sorted_counts:
+        print(f"{ch}: {count:,}")    
 
