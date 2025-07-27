@@ -1,7 +1,7 @@
 from glob import glob
 
 from process import parse_file, get_paths
-from concurrent.futures import ProcessPoolExecutor
+from concurrent.futures import ProcessPoolExecutor, ThreadPoolExecutor
 
 
 if __name__ == '__main__':
@@ -9,7 +9,7 @@ if __name__ == '__main__':
     print(f"Found {len(paths)} files.")
 
     total_words = 0
-    with ProcessPoolExecutor() as executor:
+    with ThreadPoolExecutor(max_workers=64) as executor:
         for words in executor.map(parse_file, paths):
             total_words += len(words)
 
