@@ -32,3 +32,8 @@ def count_letters_in_text(text: str) -> Result:
                 setattr(result, ch, getattr(result, ch) + 1)
     return result
 
+def merge_results(r1: Result, r2: Result) -> Result:
+    for ch in string.ascii_lowercase:
+        setattr(r1, ch, getattr(r1, ch) + getattr(r2, ch))
+    return r1
+
