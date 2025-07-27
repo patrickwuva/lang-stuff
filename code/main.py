@@ -8,7 +8,7 @@ if __name__ == '__main__':
 
     total_words = 0
     with ProcessPoolExecutor(max_workers=64) as executor:
-        results = executor.map(parse_file, paths, chunksize=5)
+        results = executor.map(parse_file, paths, chunksize=1)
         for word_count in tqdm(results, total=len(paths), desc="Parsing", unit="file"):
             total_words += word_count
 
