@@ -6,6 +6,17 @@ from result import Result
 from letter_context import LetterContext
 import string
 
+import json
+
+def context_map_to_dict(context_map):
+    return {
+        ch: {
+            "before": context.before,
+            "after": context.after
+        }
+        for ch, context in context_map.items()
+    }
+
 context_map: dict[str, LetterContext] = {
     ch: LetterContext() for ch in string.ascii_lowercase
 }
@@ -96,4 +107,6 @@ if __name__ == '__main__':
         print("  Most common letters after:")
         for a, cnt in sorted(ctx.after.items(), key=lambda x: -x[1])[:5]:
             print(f"    {a}: {cnt:,}")
-
+    
+    with open("letter_context.json", "w") as f:
+        json.dump(context_map_to_dict(context_map), f, indent=2)
