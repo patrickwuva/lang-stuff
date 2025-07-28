@@ -3,10 +3,33 @@ from concurrent.futures import ProcessPoolExecutor
 from tqdm import tqdm
 from dataclasses import asdict
 from result import Result
+from letter_context import LetterContext
+import string
 
+context_map: dict[str, LetterContext] = {
+    ch: LetterContext() for ch in string.ascii_lowercase
+}
 def process_file(filepath):
     words = parse_file(filepath)
     return count_letters_in_text(words)
+
+
+def update_context_counts(words: list[str]):
+    for word in words:
+        chars = list(word.lower())
+        for i, c in enumerate(chars):
+            if c not in string.ascii_lowercase:
+                continue
+
+            if i > 0:
+                prev = chars[i - 1]
+                if prev in string.ascii_lowercase:
+                    context_map[c].before[prev] += 1
+
+            if i < len(chars) - 1:
+                nxt = chars[i + 1]
+                if nxt in string.ascii_lowercase:
+                    context_map[c].after[nxt] += 1
 
 if __name__ == '__main__':
     paths = get_paths()
@@ -25,3 +48,18 @@ if __name__ == '__main__':
     for ch, count in sorted_counts:
         print(f"{ch}: {count:,}")    
 
+    print("Building letter context map...")
+    for path in tqdm(paths, desc="Letter Context"):
+        words = parse_file(path)  # single-threaded
+        update_context_counts(words)
+
+    print("\nLetter Context Summary:")
+    for letter in string.ascii_lowercase:
+        ctx = context_map[letter]
+        print(f"\nLetter '{letter}':")
+        print("  Most common letters before:")
+        for b, cnt in sorted(ctx.before.items(), key=lambda x: -x[1])[:5]:
+            print(f"    {b}: {cnt:,}")
+        print("  Most common letters after:")
+        for a, cnt in sorted(ctx.after.items(), key=lambda x: -x[1])[:5]:
+            print(f"    {a}: {cnt:,}")
